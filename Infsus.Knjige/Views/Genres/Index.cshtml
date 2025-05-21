@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Infsus.Knjige.Models.GenreViewModel>
+
+<h2>Genres</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Add Genre</a>
+
+<table class="table">
+    <thead>
+    <tr><th>Name</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var genre in Model)
+    {
+    <tr>
+        <td>@genre.GenreName</td>
+        <td>
+            <form asp-action="Delete" method="post" asp-route-id="@genre.GenreId" style="display:inline">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this genre?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

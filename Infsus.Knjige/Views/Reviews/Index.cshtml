@@ -1,0 +1,45 @@
+﻿@model List<Infsus.Knjige.Models.Reviews.ReviewViewModel>
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "All Reviews";
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<h2>All Reviews</h2>
+<a asp-action="Create" class="btn btn-primary">Create New Review</a>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Book</th>
+        <th>Author</th>
+        <th>User</th>
+        <th>Rating</th>
+        <th>Review</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.BookTitle</td>
+            <td>@r.AuthorName</td>
+            <td>@r.UserName</td>
+            <td>@r.Rating ★</td>
+            <td>@r.Text</td>
+            <td>@r.CreatedAt.ToShortDateString()</td>
+            <td>
+                @if (r.UserId == currentUserId)
+                {
+                    <a asp-controller="Reviews" asp-action="Edit" asp-route-id="@r.ReviewId" class="btn btn-sm btn-warning">Edit</a>
+                    <form asp-controller="Reviews" asp-action="Delete" asp-route-id="@r.ReviewId" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this review?')">Delete</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

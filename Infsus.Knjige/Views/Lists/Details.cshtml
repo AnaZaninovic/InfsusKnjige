@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Infsus.Knjige.Models.Lists.ListDetailsViewModel
+
+<h2>@Model.ListName</h2>
+<p>@Model.Description</p>
+
+<h4>Books in this list</h4>
+
+@if (Model.Books.Any())
+{
+<table class="table">
+    <thead>
+    <tr><th>Title</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model.Books)
+    {
+    <tr>
+        <td>@book.Title</td>
+        <td>
+            <form asp-action="RemoveBook" method="post">
+                <input type="hidden" name="ListId" value="@Model.ListId" />
+                <input type="hidden" name="BookId" value="@book.BookId" />
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Remove book?')">Remove</button>
+            </form>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+else
+{
+<p>No books in this list yet.</p>
+}
+
+<hr />
+
+<h4>Add Book to List</h4>
+
+<form asp-action="AddBook" method="post">
+    <input type="hidden" name="ListId" value="@Model.ListId" />
+    <div class="form-group">
+        <select name="BookId" class="form-control">
+            @foreach (var book in Model.AvailableBooks)
+            {
+            <option value="@book.BookId">@book.Title</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary">Add Book</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to My Lists</a>

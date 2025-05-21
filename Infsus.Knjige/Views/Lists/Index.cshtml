@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Infsus.Knjige.Models.Lists.ListViewModel>
+
+<h2>My Lists</h2>
+<a asp-action="Create" class="btn btn-primary">Create New List</a>
+
+<table class="table">
+    <thead>
+    <tr><th>Name</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var list in Model)
+    {
+        <tr>
+            <td>@list.ListName</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@list.ListId">Details</a> |
+                <form asp-action="Delete" asp-route-id="@list.ListId" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete list?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
