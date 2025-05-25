@@ -14,9 +14,13 @@ public class CreateGenreCommandHandler : IRequestHandler<CreateGenreCommand>
     {
         _repository = repository;
     }
-
+    
     public async Task Handle(CreateGenreCommand request, CancellationToken cancellationToken)
     {
+        var exists = await _repository.ExistsByNameAsync(request.GenreName);
+        if (exists)
+            throw new InvalidOperationException("A genre with this name already exists.");
+
         var genre = new Genre
         {
             GenreId = Guid.NewGuid(),
@@ -24,6 +28,7 @@ public class CreateGenreCommandHandler : IRequestHandler<CreateGenreCommand>
         };
 
         await _repository.CreateAsync(genre);
-        return ;
     }
 }
+
+

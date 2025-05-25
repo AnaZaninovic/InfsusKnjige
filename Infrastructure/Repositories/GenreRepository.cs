@@ -38,4 +38,16 @@ public class GenreRepository : IGenreRepository
             await _context.SaveChangesAsync();
         }
     }
+    
+    public async Task UpdateAsync(Genre genre)
+    {
+        _context.Genres.Update(genre);
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task<bool> ExistsByNameAsync(string genreName, Guid? excludeId = null)
+    {
+        return await _context.Genres
+            .AnyAsync(g => g.GenreName == genreName && (excludeId == null || g.GenreId != excludeId));
+    }
 }

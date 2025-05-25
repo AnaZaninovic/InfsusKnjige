@@ -36,11 +36,50 @@ public class GenresController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(CreateGenreViewModel model)
     {
-        if (!ModelState.IsValid)
-            return View(model);
+        if (!ModelState.IsValid) return View(model);
 
-        await _mediator.Send(new CreateGenreCommand(model.GenreName));
-        return RedirectToAction(nameof(Index));
+        try
+        {
+            await _mediator.Send(new CreateGenreCommand(model.GenreName));
+            return RedirectToAction(nameof(Index));
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View(model);
+        }
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var genre = await _mediator.Send(new GetGenreByIdQuery(id));
+        if (genre == null) return NotFound();
+
+        var vm = new EditGenreViewModel
+        {
+            GenreId = genre.GenreId,
+            GenreName = genre.GenreName
+        };
+
+        return View(vm);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Edit(Guid id, EditGenreViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        try
+        {
+            await _mediator.Send(new UpdateGenreCommand(id, model.GenreName));
+            return RedirectToAction(nameof(Index));
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View(model);
+        }
     }
 
     [HttpPost]

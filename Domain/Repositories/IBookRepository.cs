@@ -10,5 +10,7 @@ public interface IBookRepository
     Task DeleteAsync(Guid id);
     
     Task UpdateAsync(Book book);
+    Task<bool> ExistsByTitleAndAuthorAsync(string title, Guid authorId, Guid? excludeBookId = null);
+
 }
 

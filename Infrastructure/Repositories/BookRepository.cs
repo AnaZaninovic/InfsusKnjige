@@ -47,4 +47,12 @@ public class BookRepository : IBookRepository
         _context.Books.Update(book);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<bool> ExistsByTitleAndAuthorAsync(string title, Guid authorId, Guid? excludeBookId = null)
+    {
+        return await _context.Books.AnyAsync(b =>
+            b.Title == title &&
+            b.AuthorId == authorId &&
+            (!excludeBookId.HasValue || b.BookId != excludeBookId));
+    }
 }

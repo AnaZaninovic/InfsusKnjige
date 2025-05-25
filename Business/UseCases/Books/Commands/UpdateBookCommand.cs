@@ -12,8 +12,8 @@ public record UpdateBookCommand(
     string Publisher,
     string DatePublished,
     Guid AuthorId,
-    List<Guid> Genres) : IRequest;
-
+    List<Guid> Genres
+) : IRequest;
 
 public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
 {
@@ -27,7 +27,12 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
         var book = await _repository.GetByIdAsync(request.Id);
-        if (book == null) throw new Exception("Book not found");
+        if (book == null)
+            throw new Exception("Book not found");
+
+        var exists = await _repository.ExistsByTitleAndAuthorAsync(request.Title, request.AuthorId, request.Id);
+        if (exists)
+            throw new Exception("A book with the same title and author already exists.");
 
         book.Title = request.Title;
         book.Description = request.Description;
@@ -35,13 +40,13 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         book.Publisher = request.Publisher;
         book.DatePublished = request.DatePublished;
         book.AuthorId = request.AuthorId;
-        
+
         book.BookGenres.Clear();
         book.BookGenres = request.Genres.Select(id => new BookGenre
         {
             GenreId = id,
         }).ToList();
-        
+
         await _repository.UpdateAsync(book);
     }
 }

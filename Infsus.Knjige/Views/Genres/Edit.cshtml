@@ -1,0 +1,14 @@
+﻿@model Infsus.Knjige.Models.EditGenreViewModel
+
+<h2>Edit Genre</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="GenreName"></label>
+        <input asp-for="GenreName" class="form-control" />
+        <span asp-validation-for="GenreName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

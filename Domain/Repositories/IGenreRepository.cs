@@ -8,4 +8,7 @@ public interface IGenreRepository
     Task<Genre?> GetByIdAsync(Guid id);
     Task CreateAsync(Genre genre);
     Task DeleteAsync(Guid id);
+    Task UpdateAsync(Genre genre);
+    
+    Task<bool> ExistsByNameAsync(string genreName, Guid? excludeId = null);
 }

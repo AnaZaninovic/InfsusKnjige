@@ -21,9 +21,13 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
     {
         _repo = repo;
     }
-
+    
     public async Task Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
+        var exists = await _repo.ExistsByTitleAndAuthorAsync(request.Title, request.AuthorId);
+        if (exists)
+            throw new Exception("A book with the same title and author already exists.");
+
         var book = new Book
         {
             BookId = Guid.NewGuid(),

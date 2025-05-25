@@ -15,10 +15,11 @@
         <td>@book.Title</td>
         <td>@book.AuthorName</td>
         <td>
-            <form asp-action="Delete" method="post" asp-route-id="@book.BookId" style="display:inline">
-                <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+            <a asp-action="Details" asp-route-id="@book.BookId" class="btn btn-info btn-sm">Details</a>
+            <form asp-controller="Books" asp-action="Delete" method="post" asp-route-id="@book.BookId" style="display:inline">
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this book from the database?')">Delete</button>
             </form>
-            <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-primary mb-3">Edit</a>
+            <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-warning">Edit</a>
         </td>
     </tr>
     }

@@ -14,8 +14,9 @@
     <tr>
         <td>@genre.GenreName</td>
         <td>
-            <form asp-action="Delete" method="post" asp-route-id="@genre.GenreId" style="display:inline">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this genre?')">Delete</button>
+            <a asp-action="Edit" asp-route-id="@genre.GenreId" class="btn btn-sm btn-warning">Edit</a>
+            <form asp-action="Delete" asp-route-id="@genre.GenreId" method="post" style="display:inline;">
+                <button class="btn btn-sm btn-danger">Delete</button>
             </form>
         </td>
     </tr>
