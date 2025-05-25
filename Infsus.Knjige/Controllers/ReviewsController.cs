@@ -28,7 +28,6 @@ public class ReviewsController : Controller
         _context = context;
     }
 
-    // GET: /Reviews
     [HttpGet]
     public async Task<IActionResult> Index()
     {
@@ -49,7 +48,6 @@ public class ReviewsController : Controller
         return View(vm);
     }
 
-    // GET: /Reviews/Create
     [HttpGet]
     public IActionResult Create()
     {
@@ -69,7 +67,6 @@ public class ReviewsController : Controller
         return View(vm);
     }
 
-    // POST: /Reviews/Create
     [HttpPost]
     public async Task<IActionResult> Create(CreateReviewViewModel model)
     {
@@ -97,7 +94,6 @@ public class ReviewsController : Controller
         return RedirectToAction("Index");
     }
 
-    // GET: /Reviews/Edit/{id}
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
@@ -118,7 +114,6 @@ public class ReviewsController : Controller
         return View(vm);
     }
 
-    // POST: /Reviews/Edit/{id}
     [HttpPost]
     public async Task<IActionResult> Edit(Guid id, EditReviewViewModel model)
     {
@@ -132,8 +127,7 @@ public class ReviewsController : Controller
 
         return RedirectToAction("Index");
     }
-
-    // POST: /Reviews/Delete/{id}
+    
     [HttpPost]
     public async Task<IActionResult> Delete(Guid id)
     {

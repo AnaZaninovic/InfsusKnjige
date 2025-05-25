@@ -19,7 +19,7 @@ public class AuthorIntegrationTests
         var services = new ServiceCollection()
             .AddDbContext<ApplicationContext>(opts => 
                 opts.UseInMemoryDatabase("TestDB"))
-            .AddScoped<IAuthorRepository, AuthorRepository>() // Dodajte registraciju repozitorija
+            .AddScoped<IAuthorRepository, AuthorRepository>()
             .AddMediatR(cfg => 
                 cfg.RegisterServicesFromAssembly(typeof(CreateAuthorCommand).Assembly))
             .BuildServiceProvider();
